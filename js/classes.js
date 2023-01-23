@@ -95,10 +95,6 @@ class Fighter extends Sprite {
             sprites[sprite].image = new Image()
             sprites[sprite].image.src = sprites[sprite].imageSrc
         }
-
-        // for (const character in this.characters) {
-        //     characters[character] = character
-        // }
     }
 
 
@@ -137,26 +133,6 @@ class Fighter extends Sprite {
             this.switchSprite('death')
         } else this.switchSprite('takeHit')
     }
-
-    // switchCharater(character) {
-    //     switch (character) {
-    //         case 'samuaraiMack':
-    //             if (this.image !== this.sprites.idle.image) {
-    //                 this.image = this.sprites.idle.image
-    //                 this.framesMax = this.sprites.idle.framesMax
-    //                 this.framesCurrent = 0
-    //             }
-    //             break
-
-    //         case 'kenji':
-    //             if (this.image !== this.sprites.idle.image) {
-    //                 this.image = this.sprites.idle.image
-    //                 this.framesMax = this.sprites.idle.framesMax
-    //                 this.framesCurrent = 0
-    //             }
-    //             break
-    //     }
-    // }
 
     switchSprite(sprite) {
         // override when character dies
