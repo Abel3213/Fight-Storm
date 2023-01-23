@@ -8,15 +8,15 @@ function rectangularCollision({
     )
 }
 
-function determineWinner({ player, enemy, timerId }) {
+function determineWinner({ player1, player2, timerId }) {
     clearTimeout(timerId)
     document.querySelector('#displayText').style.display = 'flex'
-    if (player.health === enemy.health) {
+    if (player1.health === player2.health) {
         document.querySelector('#displayText').innerHTML = 'Tie'
-    } else if (player.health > enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'PLayer 1 Wins'
-    } else if (player.health < enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'PLayer 2 Wins'
+    } else if (player1.health > player2.health) {
+        document.querySelector('#displayText').innerHTML = 'PLayer1 1 Wins'
+    } else if (player1.health < player2.health) {
+        document.querySelector('#displayText').innerHTML = 'PLayer1 2 Wins'
     }
 }
 
@@ -29,6 +29,10 @@ function decreaseTimer() {
         document.querySelector('#timer').innerHTML = timer
     }
     if (timer === 0) {
-        determineWinner({ player, enemy, timerId })
+        determineWinner({ player1, player2, timerId })
     }
 }
+
+// function switchPage() {
+//     document.querySelector('#homePage').addEventListener('click', );
+// }

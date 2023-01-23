@@ -50,12 +50,14 @@ class Fighter extends Sprite {
         position,
         velocity,
         color = 'red',
+        damage,
         imageSrc,
         scale = 1,
         framesMax = 1,
         offset = { x: 0, y: 0 },
         sprites,
-        attackBox = { offset: {}, width: undefined, height: undefined }
+        attackBox = { offset: {}, width: undefined, height: undefined },
+        characters,
     }) {
         super({
             position,
@@ -81,16 +83,22 @@ class Fighter extends Sprite {
         this.color = color
         this.isAttacking
         this.health = 100
+        this.damage = damage
         this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = 5
         this.sprites = sprites
+        this.characters = characters
         this.dead = false
 
         for (const sprite in this.sprites) {
             sprites[sprite].image = new Image()
             sprites[sprite].image.src = sprites[sprite].imageSrc
         }
+
+        // for (const character in this.characters) {
+        //     characters[character] = character
+        // }
     }
 
 
@@ -122,11 +130,33 @@ class Fighter extends Sprite {
     }
 
     takeHit() {
-        this.health -= 20
+        if (player1.isAttacking === true) { this.health -= player1.damage } else if (player2.isAttacking === true) {
+            this.health -= player2.damage
+        }
         if (this.health <= 0) {
             this.switchSprite('death')
         } else this.switchSprite('takeHit')
     }
+
+    // switchCharater(character) {
+    //     switch (character) {
+    //         case 'samuaraiMack':
+    //             if (this.image !== this.sprites.idle.image) {
+    //                 this.image = this.sprites.idle.image
+    //                 this.framesMax = this.sprites.idle.framesMax
+    //                 this.framesCurrent = 0
+    //             }
+    //             break
+
+    //         case 'kenji':
+    //             if (this.image !== this.sprites.idle.image) {
+    //                 this.image = this.sprites.idle.image
+    //                 this.framesMax = this.sprites.idle.framesMax
+    //                 this.framesCurrent = 0
+    //             }
+    //             break
+    //     }
+    // }
 
     switchSprite(sprite) {
         // override when character dies
