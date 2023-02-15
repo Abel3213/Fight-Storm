@@ -1,6 +1,6 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-const socket = io.connect("https://mysterious-ravine-22554.herokuapp.com/");
+const socket = io.connect("https://fightstorm.herokuapp.com/");
 
 canvas.width = 1024
 canvas.height = 576
