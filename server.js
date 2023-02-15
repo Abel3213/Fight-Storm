@@ -8,7 +8,6 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const server = http.createServer(app);
 
-
 // Add a static route for index.html
 app.use(express.static('public'));
 
@@ -29,12 +28,19 @@ io.on("connection", socket => {
         console.log(p2)
     })
 
-    socket.on("d", move => {
-        io.emit('d', move)
+    socket.on("message", (arg) => {
+        console.log(arg)
+        io.emit("message", (arg))
     })
 
-    socket.on('d-up', move1 => {
-        io.emit('d-up', move1)
+    socket.on("d", rightMovement => {
+        console.log(rightMovement)
+        io.emit('d', rightMovement)
+
+    })
+
+    socket.on('d-up', rightMovement2 => {
+        io.emit('d-up', rightMovement2)
     })
 
     socket.on("a", move3 => {
@@ -43,6 +49,38 @@ io.on("connection", socket => {
 
     socket.on('a-up', move2 => {
         io.emit('a-up', move2)
+    })
+
+    socket.on('w', p1Jump => {
+        io.emit("w", p1Jump)
+    })
+
+    socket.on(' ', p1Attack => {
+        io.emit(" ", p1Attack)
+    })
+
+    socket.on('ArrowRight', p2rightMovement => {
+        io.emit('ArrowRight', p2rightMovement)
+    })
+
+    socket.on('ArrowRight-up', p2rightMovement2 => {
+        io.emit('ArrowRight-up', p2rightMovement2)
+    })
+
+    socket.on('ArrowLeft', p2leftMovement => {
+        io.emit('ArrowLeft', p2leftMovement)
+    })
+
+    socket.on('ArrowLeft-up', p2leftMovement2 => {
+        io.emit('ArrowLeft-up', p2leftMovement2)
+    })
+
+    socket.on('ArrowUp', p2Jump => {
+        io.emit('ArrowUp', p2Jump)
+    })
+
+    socket.on('ArrowDown', p2Attack => {
+        io.emit('ArrowDown', p2Attack)
     })
 });
 

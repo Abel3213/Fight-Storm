@@ -1,6 +1,6 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-const socket = io.connect("https://mysterious-ravine-22554.herokuapp.com/");
+const socket = io.connect("http://localhost:3001");
 
 canvas.width = 1024
 canvas.height = 576
@@ -283,55 +283,46 @@ function animate() {
 
 animate()
 
-window.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', (event) => {
     if (!player1.dead || !document.querySelector('#displayText').innerHTML === "Tie") {
         switch (event.key) {
             case 'd':
-                move = event.key
-                socket.emit("d", move)
+                rightMovement = event.key
+                socket.emit("d", rightMovement)
 
-
-                socket.on('d', move => {
-                    keys.d.pressed = true
-                    player1.lastKey = 'd'
-                    console.log(move)
-                })
-                console.log(move)
                 break
             case 'a':
-                move3 = event.key
-                socket.emit("a", move3)
+                leftMovement = event.key
+                socket.emit("a", leftMovement)
 
-
-                socket.on('a', move3 => {
-                    keys.a.pressed = true
-                    player1.lastKey = 'a'
-                    console.log(move3)
-                })
                 break
             case 'w':
-                player1.velocity.y = -18
+                p1Jump = event.key
+                socket.emit("w", p1Jump)
                 break
             case ' ':
-                player1.attack()
+                p1Attack = event.key
+                socket.emit(" ", p1Attack)
                 break
         }
     }
     if (!player2.dead || !document.querySelector('#displayText').innerHTML === "Tie") {
         switch (event.key) {
             case 'ArrowRight':
-                keys.ArrowRight.pressed = true
-                player2.lastKey = 'ArrowRight'
+                p2rightMovement = event.key
+                socket.emit('ArrowRight', p2rightMovement)
                 break
             case 'ArrowLeft':
-                keys.ArrowLeft.pressed = true
-                player2.lastKey = 'ArrowLeft'
+                p2leftMovement = event.key
+                socket.emit('ArrowLeft', p2leftMovement)
                 break
             case 'ArrowUp':
-                player2.velocity.y = -18
+                p2Jump = event.key
+                socket.emit('ArrowUp', p2Jump)
                 break
             case 'ArrowDown':
-                player2.attack()
+                p2Attack = event.key
+                socket.emit('ArrowDown', p2Attack)
                 break
         }
     }
@@ -340,31 +331,89 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
     switch (event.key) {
         case 'd':
-            move1 = event.key
-            socket.emit('d-up', move1)
-            socket.on('d-up', move1 => {
-                keys.d.pressed = false
-            })
+            rightMovement2 = event.key
+            socket.emit('d-up', rightMovement2)
+
             break
         case 'a':
-            move2 = event.key
-            socket.emit('a-up', move2)
-            socket.on('a-up', move2 => {
-                keys.a.pressed = false
-            })
+            leftMovement2 = event.key
+            socket.emit('a-up', leftMovement2)
+
             break
     }
     //player2 keys
     switch (event.key) {
         case 'ArrowRight':
-            keys.ArrowRight.pressed = false
+            p2rightMovement2 = event.key
+            socket.emit('ArrowRight-up', p2rightMovement2)
             break
         case 'ArrowLeft':
-            keys.ArrowLeft.pressed = false
+            p2leftMovement2 = event.key
+            socket.emit('ArrowLeft-up', p2leftMovement2)
             break
     }
 })
 
+
+//player 1 socket connections
+socket.on('d', rightMovement => {
+    keys.d.pressed = true
+    player1.lastKey = 'd'
+    console.log(rightMovement)
+})
+
+socket.on('d-up', rightMovement2 => {
+    keys.d.pressed = false
+})
+
+socket.on('a', leftMovement => {
+    keys.a.pressed = true
+    player1.lastKey = 'a'
+    console.log(leftMovement)
+})
+
+socket.on('a-up', leftMovement2 => {
+    keys.a.pressed = false
+})
+
+socket.on('w', p1Jump => {
+    player1.velocity.y = -18
+})
+
+socket.on(' ', p1Attack => {
+    player1.attack()
+})
+
+// player2 socket connections
+socket.on('ArrowRight', p2rightMovement => {
+    keys.ArrowRight.pressed = true
+    player2.lastKey = 'ArrowRight'
+    console.log(p2rightMovement)
+})
+
+socket.on('ArrowRight-up', p2rightMovement2 => {
+    keys.ArrowRight.pressed = false
+})
+
+socket.on('ArrowLeft', p2leftMovement => {
+    keys.ArrowLeft.pressed = true
+    player2.lastKey = 'ArrowLeft'
+    console.log(p2leftMovement)
+})
+
+socket.on('ArrowLeft-up', p2leftMovement2 => {
+    keys.ArrowLeft.pressed = false
+})
+
+socket.on('ArrowUp', p2Jump => {
+    player2.velocity.y = -18
+})
+
+socket.on('ArrowDown', p2Attack => {
+    player2.attack()
+})
+
+// --------------------------------------
 
 socket.on('player1-joined', p1 => {
     const mack = document.getElementById(
@@ -393,3 +442,13 @@ document.getElementById("start-btn2").addEventListener("click", () => {
     const p2 = document.getElementById("p2").value;
     socket.emit("player2", p2);
 });
+
+document.getElementById("testBtn").addEventListener("click", () => {
+    socket.emit("message", "test")
+})
+
+socket.on("message", (arg) => {
+    console.log(arg)
+})
+
+
