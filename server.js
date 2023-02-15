@@ -10,7 +10,7 @@ const server = http.createServer(app);
 
 
 // Add a static route for index.html
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 // Socket setup
 const io = socket(server);
