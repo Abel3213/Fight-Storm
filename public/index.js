@@ -1,6 +1,6 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-const socket = io.connect("https://fightstorm.onrender.com/game.html");
+const socket = io.connect("https://fightstorm.onrender.com/");
 
 canvas.width = 1024
 canvas.height = 576
@@ -443,9 +443,6 @@ document.getElementById("start-btn2").addEventListener("click", () => {
     socket.emit("player2", p2);
 });
 
-document.getElementById("testBtn").addEventListener("click", () => {
-    socket.emit("message", "test")
-})
 
 socket.on("message", (arg) => {
     console.log(arg)
