@@ -1,6 +1,6 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-const socket = io.connect("https://abel3213.github.io/Fight-Storm/");
+const socket = io.connect("https://fightstorm.onrender.com/game.html");
 
 canvas.width = 1024
 canvas.height = 576
